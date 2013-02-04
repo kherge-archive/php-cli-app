@@ -1,0 +1,6 @@
+.*
+!.gitignore
+!.travis.yml
+bin/
+coverage/
+src/vendors/
