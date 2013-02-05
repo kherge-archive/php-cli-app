@@ -18,13 +18,13 @@ class CommandFactoryServiceProviderTest extends TestCase
         $command = $container['command_factory']('test', $callback);
 
         $this->assertInstanceOf(
-            'Herrera\\Cli\\Command\\CallbackCommand',
+            'Symfony\\Component\\Console\\Command\\Command',
             $command
         );
         $this->assertEquals('test', $command->getName());
         $this->assertSame(
             $callback,
-            $this->getPropertyValue($command, 'callback')
+            $this->getPropertyValue($command, 'code')
         );
     }
 }
