@@ -2,8 +2,8 @@
 
 namespace Herrera\Cli\Provider;
 
-use Herrera\Cli\Command\CallbackCommand;
 use Herrera\Service\Container;
+use Symfony\Component\Console\Command\Command;
 use Herrera\Service\ProviderInterface;
 
 /**
@@ -22,7 +22,10 @@ class CommandFactoryServiceProvider implements ProviderInterface
             $name,
             $callback
         ){
-            return new CallbackCommand($name, $callback);
+            $command = new Command($name);
+            $command->setCode($callback);
+
+            return $command;
         });
     }
 }
