@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Php-cli-app by herrera-io</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Php-cli-app</h1>
+        <p>A simplified CLI application template built on Symfony Console.</p>
+
+        <p class="view"><a href="https://github.com/herrera-io/php-cli-app">View the Project on GitHub <small>herrera-io/php-cli-app</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/herrera-io/php-cli-app/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/herrera-io/php-cli-app/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/herrera-io/php-cli-app">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>CLI App</h1>
+
+<p><a href="https://travis-ci.org/herrera-io/php-cli-app"><img src="https://travis-ci.org/herrera-io/php-cli-app.png?branch=master" alt="Build Status"></a></p>
+
+<p>A simplified CLI application template built on <a href="http://symfony.com/doc/current/components/console/index.html">Symfony Console</a>.</p>
+
+<h2>Summary</h2>
+
+<p>CLI App is a template (or a framework, if you prefer) for creating command line applications. The template is built on the <a href="https://github.com/herrera-io/php-service-container">Herrera.io service container</a> and Symfony's Console component. Any service registered with the service container will be available to any command added to the application. To see an example as to why this is simplified, please see the <strong>Usage</strong> section for more information.</p>
+
+<h2>Installation</h2>
+
+<p>Add it to your list of Composer dependencies:</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>composer require herrera-io/cli-app<span class="o">=</span>1.*
+</pre></div>
+
+<h2>Usage</h2>
+
+<div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">use</span> <span class="nx">Herrera\Cli\Application</span><span class="p">;</span>
+
+<span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">(</span><span class="s1">'MyApp'</span><span class="p">,</span> <span class="s1">'1.2.3'</span><span class="p">);</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">'myCommand'</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="nv">$output</span><span class="p">)</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$app</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">'Hello, '</span> <span class="o">.</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">'name'</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'!'</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">123</span><span class="p">;</span>
+<span class="p">})</span><span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">'name'</span><span class="p">);</span>
+
+<span class="nv">$app</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+</pre></div>
+
+<p>Running it:</p>
+
+<div class="highlight"><pre><span class="nv">$ </span>php myApp.php myCommand Guest
+Hello, Guest!
+</pre></div>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/herrera-io">herrera-io</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
