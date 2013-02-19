@@ -17,7 +17,7 @@
     "require": {
         "php": ">=5.3.3",
         "herrera-io/service-container": "1.*",
-        "symfony/console": "2.1.*"
+        "symfony/console": ">=2.1,<2.3-dev"
     },
     "require-dev": {
         "herrera-io/phpunit-test-case": "1.*",
