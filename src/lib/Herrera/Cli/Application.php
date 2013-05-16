@@ -39,10 +39,13 @@ class Application extends Container implements HelperInterface
 
         $this->register(new Provider\ErrorHandlingServiceProvider());
         $this->register(new Provider\CommandFactoryServiceProvider());
-        $this->register(new Provider\ConsoleServiceProvider(), array(
-            'app.name' => $name,
-            'app.version' => $version
-        ));
+        $this->register(
+            new Provider\ConsoleServiceProvider(),
+            array(
+                'app.name' => $name,
+                'app.version' => $version
+            )
+        );
     }
 
     /**

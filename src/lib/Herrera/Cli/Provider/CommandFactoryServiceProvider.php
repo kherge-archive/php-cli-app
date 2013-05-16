@@ -18,14 +18,13 @@ class CommandFactoryServiceProvider implements ProviderInterface
      */
     public function register(Container $container)
     {
-        $container['command_factory'] = $container->many(function (
-            $name,
-            $callback
-        ){
-            $command = new Command($name);
-            $command->setCode($callback);
+        $container['command_factory'] = $container->many(
+            function ($name, $callback) {
+                $command = new Command($name);
+                $command->setCode($callback);
 
-            return $command;
-        });
+                return $command;
+            }
+        );
     }
 }

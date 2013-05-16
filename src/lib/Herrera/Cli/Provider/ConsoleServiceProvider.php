@@ -20,65 +20,65 @@ class ConsoleServiceProvider implements ProviderInterface
      */
     public function register(Container $container)
     {
-        $container['console.defaults'] = $container->once(function (
-            Container $container
-        ){
-            $defaults = array(
-                'app.name' => 'UNKNOWN',
-                'app.version' => 'UNKNOWN',
-                'console.auto_exit' => true,
-                'console.input.argv' => null,
-                'console.input.definition' => null,
-                'console.output.verbosity' => ConsoleOutput::VERBOSITY_NORMAL,
-                'console.output.decorated' => null,
-                'console.output.formatter' => null
-            );
+        $container['console.defaults'] = $container->once(
+            function (Container $container) {
+                $defaults = array(
+                    'app.name' => 'UNKNOWN',
+                    'app.version' => 'UNKNOWN',
+                    'console.auto_exit' => true,
+                    'console.input.argv' => null,
+                    'console.input.definition' => null,
+                    'console.output.verbosity' => ConsoleOutput::VERBOSITY_NORMAL,
+                    'console.output.decorated' => null,
+                    'console.output.formatter' => null
+                );
 
-            foreach ($defaults as $key => $value) {
-                if (false === isset($container[$key])) {
-                    $container[$key] = $value;
+                foreach ($defaults as $key => $value) {
+                    if (false === isset($container[$key])) {
+                        $container[$key] = $value;
+                    }
                 }
             }
-        });
+        );
 
-        $container['console'] = $container->once(function (
-            Container $container
-        ){
-            $container['console.defaults'];
+        $container['console'] = $container->once(
+            function (Container $container) {
+                $container['console.defaults'];
 
-            $console = new Application(
-                $container['app.name'],
-                $container['app.version']
-            );
+                $console = new Application(
+                    $container['app.name'],
+                    $container['app.version']
+                );
 
-            $console->setAutoExit($container['console.auto_exit']);
+                $console->setAutoExit($container['console.auto_exit']);
 
-            $console->getHelperSet()->set($container);
+                $console->getHelperSet()->set($container);
 
-            return $console;
-        });
+                return $console;
+            }
+        );
 
-        $container['console.input'] = $container->once(function(
-            Container $container
-        ){
-            $container['console.defaults'];
+        $container['console.input'] = $container->once(
+            function (Container $container) {
+                $container['console.defaults'];
 
-            return new ArgvInput(
-                $container['console.input.argv'],
-                $container['console.input.definition']
-            );
-        });
+                return new ArgvInput(
+                    $container['console.input.argv'],
+                    $container['console.input.definition']
+                );
+            }
+        );
 
-        $container['console.output'] = $container->once(function(
-            Container $container
-        ){
-            $container['console.defaults'];
+        $container['console.output'] = $container->once(
+            function (Container $container) {
+                $container['console.defaults'];
 
-            return new ConsoleOutput(
-                $container['console.output.verbosity'],
-                $container['console.output.decorated'],
-                $container['console.output.formatter']
-            );
-        });
+                return new ConsoleOutput(
+                    $container['console.output.verbosity'],
+                    $container['console.output.decorated'],
+                    $container['console.output.formatter']
+                );
+            }
+        );
     }
 }

@@ -18,22 +18,16 @@ class ErrorHandlingServiceProvider implements ProviderInterface
      */
     public function register(Container $container)
     {
-        set_error_handler(function (
-            $code,
-            $message,
-            $file,
-            $line
-        ) use ($container){
-            $container['error_handler']($code, $message, $file, $line);
-        });
+        set_error_handler(
+            function ($code, $message, $file, $line) use ($container) {
+                $container['error_handler']($code, $message, $file, $line);
+            }
+        );
 
-        $container['error_handler'] = $container->many(function (
-            $code,
-            $message,
-            $file,
-            $line
-        ){
-            throw new ErrorException($message, $code, 1, $file, $line);
-        });
+        $container['error_handler'] = $container->many(
+            function ($code, $message, $file, $line) {
+                throw new ErrorException($message, $code, 1, $file, $line);
+            }
+        );
     }
 }
