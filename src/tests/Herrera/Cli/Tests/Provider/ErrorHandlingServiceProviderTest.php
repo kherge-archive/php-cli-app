@@ -20,4 +20,16 @@ class ErrorHandlingServiceProviderTest extends TestCase
 
         trigger_error('Test error.', E_USER_ERROR);
     }
+
+    public function testRegisterIgnored()
+    {
+        $container = new Container();
+        $container->register(new ErrorHandlingServiceProvider());
+
+        error_reporting(E_ALL ^ E_USER_NOTICE);
+
+        trigger_error('Test error.', E_USER_NOTICE);
+
+        $this->assertTrue(true);
+    }
 }

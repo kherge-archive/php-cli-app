@@ -26,7 +26,9 @@ class ErrorHandlingServiceProvider implements ProviderInterface
 
         $container['error_handler'] = $container->many(
             function ($code, $message, $file, $line) {
-                throw new ErrorException($message, $code, 1, $file, $line);
+                if (error_reporting() & $code) {
+                    throw new ErrorException($message, $code, 1, $file, $line);
+                }
             }
         );
     }
