@@ -16,7 +16,7 @@ Installation
 Add it to your list of Composer dependencies:
 
 ```sh
-$ composer require herrera-io/cli-app=1.*
+$ composer require "herrera-io/cli-app=1.*"
 ```
 
 Usage
