@@ -3,57 +3,71 @@
 namespace Herrera\Cli\Tests;
 
 use Herrera\Cli\Application;
+use Herrera\Cli\Tests\Test\TestHelper;
 use Herrera\PHPUnit\TestCase;
-use Symfony\Component\Console\Helper\Helper;
+use Symfony\Component\Console\Application as Console;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
 
 class ApplicationTest extends TestCase
 {
+    /**
+     * @var Application
+     */
     private $app;
+
+    /**
+     * @var Console
+     */
+    private $console;
 
     public function testAdd()
     {
         $this->assertSame(
-            $this->app->add('test', function () {}),
-            $this->app['console']->find('test')
+            $this->app->add(
+                'test',
+                function () {
+                }
+            ),
+            $this->console->find('test')
         );
     }
 
     public function testGetHelperSet()
     {
         $this->assertSame(
-            $this->app['console']->getHelperSet(),
+            $this->console->getHelperSet(),
             $this->app->getHelperSet()
         );
     }
 
     public function testRun()
     {
-        $input = new ArrayInput(array('test'));
-        $output = new NullOutput();
+        $actual = array(
+            'input' => null,
+            'output' => null,
+        );
 
-        $this->app['console.auto_exit'] = false;
-        $this->app['console.input'] = $input;
-        $this->app['console.output'] = $output;
+        $expected = array(
+            'input' => new ArrayInput(array('test')),
+            'output' => new NullOutput(),
+        );
 
-        $result_input = null;
-        $result_output = null;
+        $this->app['console.input'] = $expected['input'];
+        $this->app['console.output'] = $expected['output'];
 
-        $this->app->add('test', function (
-            $input, $output
-        ) use (
-            &$result_input, &$result_output
-        ){
-            $result_input = $input;
-            $result_output = $output;
-        });
+        $this->app->add(
+            'test',
+            function ($input, $output) use (&$actual) {
+                $actual['input'] = $input;
+                $actual['output'] = $output;
+            }
+        );
 
         $this->app->run();
 
-        $this->assertSame($input, $result_input);
-        $this->assertSame($output, $result_output);
+        $this->assertSame($expected, $actual);
     }
 
     public function testSet()
@@ -64,7 +78,7 @@ class ApplicationTest extends TestCase
 
         $this->assertSame(
             $helper,
-            $this->app['console']->getHelperSet()->get('test')
+            $this->console->getHelperSet()->get('test')
         );
     }
 
@@ -79,14 +93,14 @@ class ApplicationTest extends TestCase
 
     protected function setUp()
     {
-        $this->app = new Application('Test', '1.2.3');
-    }
-}
+        $this->app = new Application(
+            array(
+                'app.name' => 'Test',
+                'app.version' => '1.2.3',
+                'console.auto_exit' => false,
+            )
+        );
 
-class TestHelper extends Helper
-{
-    public function getName()
-    {
-        return 'test';
+        $this->console = $this->app['console'];
     }
 }

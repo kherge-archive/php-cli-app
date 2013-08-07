@@ -11,54 +11,40 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * This class serves as the command line application class, service container
- * (by extending the `Herrera\Service\Container` class), and a helper for the
- * Symfony Console. By making the class a helper, commands will be able to
- * access the registered services.
+ * The service container-based application.
  *
  * @author Kevin Herrera <kevin@herrera.io>
  */
 class Application extends Container implements HelperInterface
 {
     /**
-     * The console helper set.
+     * The helper set.
      *
      * @var HelperSet
      */
     private $helperSet;
 
     /**
-     * Sets the application name and version, and registers default services.
-     *
-     * @param string $name    The name.
-     * @param string $version The version.
+     * @override
      */
-    public function __construct($name = 'UNKNOWN', $version = 'UNKNOWN')
+    public function __construct(array $container = array())
     {
-        parent::__construct();
+        parent::__construct($container);
 
-        $this->register(new Provider\ErrorHandlingServiceProvider());
-        $this->register(new Provider\CommandFactoryServiceProvider());
-        $this->register(
-            new Provider\ConsoleServiceProvider(),
-            array(
-                'app.name' => $name,
-                'app.version' => $version
-            )
-        );
+        $this->registerDefaultServices();
     }
 
     /**
      * Adds a new command.
      *
      * @param string   $name     The name.
-     * @param callable $callback The callback.
+     * @param callable $callable The callable.
      *
      * @return Command The new command.
      */
-    public function add($name, $callback)
+    public function add($name, $callable)
     {
-        $command = $this['command_factory']($name, $callback);
+        $command = $this['console.command_factory']($name, $callable);
 
         $this['console']->add($command);
 
@@ -78,26 +64,23 @@ class Application extends Container implements HelperInterface
      */
     public function getName()
     {
-        return 'cli';
+        return 'app';
     }
 
     /**
-     * Runs the console application.
+     * Runs the application.
      *
      * @return integer The exit status code.
      */
     public function run()
     {
-        return $this['console']->run(
-            $this['console.input'],
-            $this['console.output']
-        );
+        return $this['console.run']();
     }
 
     /**
      * Sets a helper.
      *
-     * @param HelperInterface $helper The helper.
+     * @param HelperInterface $helper A helper.
      */
     public function set(HelperInterface $helper)
     {
@@ -110,5 +93,14 @@ class Application extends Container implements HelperInterface
     public function setHelperSet(HelperSet $helperSet = null)
     {
         $this->helperSet = $helperSet;
+    }
+
+    /**
+     * Registers the default application services.
+     */
+    protected function registerDefaultServices()
+    {
+        $this->register(new Provider\ErrorHandlingServiceProvider());
+        $this->register(new Provider\ConsoleServiceProvider());
     }
 }
