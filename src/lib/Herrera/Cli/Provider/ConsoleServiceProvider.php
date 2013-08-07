@@ -5,6 +5,8 @@ namespace Herrera\Cli\Provider;
 use Herrera\Service\Container;
 use Herrera\Service\ProviderInterface;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -52,9 +54,19 @@ class ConsoleServiceProvider implements ProviderInterface
 
                 $console->setAutoExit($container['console.auto_exit']);
 
+                /** @var HelperInterface $container */
                 $console->getHelperSet()->set($container);
 
                 return $console;
+            }
+        );
+
+        $container['console.command_factory'] = $container->many(
+            function ($name, $callback) {
+                $command = new Command($name);
+                $command->setCode($callback);
+
+                return $command;
             }
         );
 
@@ -77,6 +89,15 @@ class ConsoleServiceProvider implements ProviderInterface
                     $container['console.output.verbosity'],
                     $container['console.output.decorated'],
                     $container['console.output.formatter']
+                );
+            }
+        );
+
+        $container['console.run'] = $container->many(
+            function () use ($container) {
+                return $container['console']->run(
+                    $container['console.input'],
+                    $container['console.output']
                 );
             }
         );
