@@ -1,7 +1,7 @@
 CLI App
 =======
 
-[![Build Status][]]](https://travis-ci.org/herrera-io/php-cli-app)
+[![Build Status][]](https://travis-ci.org/herrera-io/php-cli-app)
 
 CLI App is a template for creating console applications based on Symfony
 [Console][] and the Herrera.io [Service Container][]. Think Silex, but for
@@ -16,7 +16,7 @@ use Herrera\Cli\Application;
 $app = new Application(
     array(
         'app.name' => 'MyApp',
-        'app.version' => 1.2.3'
+        'app.version' => '1.2.3',
     )
 );
 
@@ -47,13 +47,13 @@ Installation
 Add it to your list of Composer dependencies:
 
 ```sh
-$ composer require "herrera-io/cli-app=2.*"
+$ composer require "herrera-io/cli-app=~2.0"
 ```
 
 Usage
 -----
 
-Creating a new application is as simple as instantiation the `Application`
+Creating a new application is as simple as instantiating the `Application`
 class. The class itself is an extension of the `Container` class from the
 Herrera.io service container library.
 
