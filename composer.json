@@ -1,7 +1,7 @@
 {
     "name": "herrera-io/cli-app",
-    "description": "A simplified CLI application template built on Symfony Console.",
-    "keywords": ["cli", "application", "template"],
+    "description": "A service container-based Symfony Console application template.",
+    "keywords": ["cli", "console"],
     "homepage": "http://herrera-io.github.com/php-cli-app",
     "license": "MIT",
     "authors": [
