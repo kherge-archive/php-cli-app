@@ -16,12 +16,12 @@
     },
     "require": {
         "php": ">=5.3.3",
-        "herrera-io/service-container": "1.*",
-        "symfony/console": ">=2.1,<2.3-dev"
+        "herrera-io/service-container": "~1.0",
+        "symfony/console": "~2.1"
     },
     "require-dev": {
-        "herrera-io/phpunit-test-case": "1.*",
-        "phpunit/phpunit": "3.7.*"
+        "herrera-io/phpunit-test-case": "~1.0",
+        "phpunit/phpunit": "~3.7"
     },
     "autoload": {
         "psr-0": {
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0-dev"
+            "dev-master": "2.0-dev"
         }
     }
 }
