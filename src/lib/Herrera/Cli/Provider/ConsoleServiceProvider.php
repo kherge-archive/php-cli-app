@@ -6,6 +6,7 @@ use Herrera\Service\Container;
 use Herrera\Service\ProviderInterface;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatter;
 use Symfony\Component\Console\Helper\HelperInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -32,7 +33,6 @@ class ConsoleServiceProvider implements ProviderInterface
                     'console.input.definition' => null,
                     'console.output.verbosity' => ConsoleOutput::VERBOSITY_NORMAL,
                     'console.output.decorated' => null,
-                    'console.output.formatter' => null
                 );
 
                 foreach ($defaults as $key => $value) {
@@ -90,6 +90,12 @@ class ConsoleServiceProvider implements ProviderInterface
                     $container['console.output.decorated'],
                     $container['console.output.formatter']
                 );
+            }
+        );
+
+        $container['console.output.formatter'] = $container->once(
+            function () {
+                return new OutputFormatter();
             }
         );
 
